@@ -1,0 +1,28 @@
+version: "3.4"
+
+services:
+  remote-api:
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "500k"
+        max-file: "10"
+    build: .
+    ports:
+     - 2376:80
+    environment:
+     - USERNAME=admin
+     - PASSWORD=admin
+     - SECRET_KEY="4FpyKHqnSTAMUAdsfdyDZIFYa8favIA4UqM69XtCDjyzrdnAvXFt63vreX78dk57"
+    volumes:
+     - ./lua/:/path/to/lua
+     - ./resources/nginx.conf:/etc/nginx/nginx.conf
+     - /var/run/docker.sock:/var/run/docker.sock:ro
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 150M
+        reservations:
+          cpus: '0.1'
+          memory: 10M
